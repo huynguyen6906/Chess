@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include "ProjectLib.h"
+#include "InitLib.h"
 
 SDL_Window* Window=0;
 SDL_Renderer* Renderer=0;
@@ -15,7 +15,7 @@ void render(){
 int main(int argc, char* argv[]){
 
     // Init Window
-    if(init(Window, Renderer, running,"My window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 600, SDL_WINDOW_SHOWN))
+    if(init(Window, Renderer, running, "My window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 600, SDL_WINDOW_SHOWN))
         running = true;
     else 
         return 1;
