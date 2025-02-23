@@ -1,54 +1,32 @@
 #include <SDL2/SDL.h>
+#include "ProjectLib.h"
 
-int main(int argc, char* argv[]) {
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+SDL_Window* Window=0;
+SDL_Renderer* Renderer=0;
+bool running=false;
+
+
+void render(){
+    SDL_SetRenderDrawColor(Renderer,0,0,0,255);
+    SDL_RenderClear(Renderer);
+    SDL_RenderPresent(Renderer);
+}
+
+int main(int argc, char* argv[]){
+
+    // Init Window
+    if(init(Window, Renderer, running,"My window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 600, SDL_WINDOW_SHOWN))
+        running = true;
+    else 
         return 1;
-    }
+    
+    // Running
+    while(running)
+        render();
 
-    // Create a window
-    SDL_Window* window = SDL_CreateWindow("SDL2 Window", 
-                                          SDL_WINDOWPOS_CENTERED, 
-                                          SDL_WINDOWPOS_CENTERED, 
-                                          800, 600, 
-                                          SDL_WINDOW_SHOWN);
-    if (window == nullptr) {
-        SDL_Quit();
-        return 1;
-    }
-
-    // Create a renderer
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (renderer == nullptr) {
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
-
-    // Main loop flag
-    bool running = true;
-    SDL_Event event;
-
-    // Main loop
-    while (running) {
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                running = false;
-            }
-        }
-
-        // Clear the screen
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White color
-        SDL_RenderClear(renderer);
-
-        // Present the renderer
-        SDL_RenderPresent(renderer);
-    }
-
-    // Clean up
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    // Close app
+    SDL_DestroyWindow(Window);
+    SDL_DestroyRenderer(Renderer);
     SDL_Quit();
-
     return 0;
 }
